@@ -1,0 +1,10 @@
+---
+# User Configuration Variables
+username: "ivan"
+user_password: "Ladnerbc1!"
+ssh_key_path: "~/.ssh/personal-hetzner.pub"
+
+# Optional: Additional user settings
+user_shell: "/bin/bash"
+user_groups: "sudo"
+allow_passwordless_sudo: yes

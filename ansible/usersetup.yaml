@@ -1,0 +1,35 @@
+---
+- name: Create user account
+  user:
+    name: "{{ username }}"
+    password: "{{ user_password | password_hash('sha512') }}"
+    shell: "{{ user_shell | default('/bin/bash') }}"
+    create_home: yes
+    groups: "{{ user_groups | default('sudo') }}"
+    append: yes
+    state: present
+
+- name: Add SSH key for passwordless login
+  authorized_key:
+    user: "{{ username }}"
+    key: "{{ lookup('file', ssh_key_path) }}"
+    state: present
+  when: ssh_key_path is defined
+
+- name: Allow sudo without password
+  lineinfile:
+    path: "/etc/sudoers.d/{{ username }}"
+    line: "{{ username }} ALL=(ALL) NOPASSWD:ALL"
+    create: yes
+    mode: "0440"
+    validate: "visudo -cf %s"
+  when: allow_passwordless_sudo | default(true)
+
+- name: Ensure .ssh directory exists
+  file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0700"
+    
