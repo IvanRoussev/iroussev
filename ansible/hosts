@@ -1,0 +1,2 @@
+[servers]
+iroussev ansible_host=91.98.157.135 ansible_user=root

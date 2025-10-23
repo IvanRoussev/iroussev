@@ -1,0 +1,19 @@
+---
+- name: Setup server user
+  hosts: iroussev
+  become: yes
+  vars_files:
+    - vars.yaml
+    
+  tasks:
+    - name: Include user setup tasks
+      include_tasks: usersetup.yaml
+    
+    - name: Install kubernetes with kubeadm
+      include_tasks: kubeadm.yaml
+    
+  handlers:
+    - name: Restart docker
+      ansible.builtin.service:
+        name: docker
+        state: restarted
