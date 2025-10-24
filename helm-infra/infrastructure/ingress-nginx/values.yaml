@@ -3,4 +3,4 @@ ingress-nginx:
     replicaCount: 2
     service:
       type: LoadBalancer
-    # Add your custom configurations here
+      loadBalancerIP: 91.98.157.135
