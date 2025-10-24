@@ -8,11 +8,9 @@ resources:
 
 controller:
   ingress:
-    # -- Enables ingress
     enabled: true
 
-    # Override for the default paths that map requests to the backend
-    # -- Override for the default Ingress paths
+
     paths: 
       - path: /
         pathType: Prefix
@@ -34,9 +32,10 @@ controller:
     labels: {}
     # -- Ingress annotations
     annotations:
+      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
+      kubernetes.io/tls-acme: "true"
+
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
     # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     # ingressClassName: nginx
