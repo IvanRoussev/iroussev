@@ -1,0 +1,24 @@
+resources:
+  requests:
+    cpu: "250m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+controller:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: builds.iroussev.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: jenkins-tls
+        hosts:
+          - builds.iroussev.com
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/rewrite-target: /

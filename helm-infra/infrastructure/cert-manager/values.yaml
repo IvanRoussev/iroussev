@@ -1,0 +1,25 @@
+acme:
+  email: me@iroussev.com
+  ingressClass: nginx
+
+installCRDs: true
+
+# Enable RBAC
+rbac:
+  create: true
+
+# Resource requests and limits for cert-manager pods
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+# Optional: configure log levels
+logLevel: "2"
+
+# Optional: webhook timeout
+webhook:
+  timeoutSeconds: 10
