@@ -1,29 +1,13 @@
-argo-cd:
-  server:
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hostName: argo.iroussev.com
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/tls-acme: "true"
-      path: /
-      pathType: Prefix
-      tls:
-        - secretName: argocd-tls
-          hosts:
-            - argo.iroussev.com
-
-
-    extraArgs:
-      - --insecure
-
-  configs:
-    params:
-      server.insecure: true  # Allows HTTPS termination at NGINX ingress
-
-
-global:
-  # Disable the built-in Ingress from templates
+server:
   ingress:
-    enabled: false
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - host: argo.iroussev.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: argocd-server-tls
+        hosts:
+          - argo.iroussev.com
