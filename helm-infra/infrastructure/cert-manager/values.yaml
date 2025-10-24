@@ -1,25 +1,30 @@
-acme:
+# Values for the cert-manager dependency
+cert-manager:
+  # Install CRDs as part of the Helm release
+  installCRDs: true
+  
+  # Enable RBAC
+  rbac:
+    create: true
+  
+  # Resource requests and limits for cert-manager pods
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  
+  # Configure log levels
+  global:
+    logLevel: 2
+  
+  # Webhook configuration
+  webhook:
+    timeoutSeconds: 10
+
+# Custom values for ClusterIssuer
+clusterIssuer:
   email: me@iroussev.com
   ingressClass: nginx
-
-installCRDs: true
-
-# Enable RBAC
-rbac:
-  create: true
-
-# Resource requests and limits for cert-manager pods
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 512Mi
-
-# Optional: configure log levels
-logLevel: "2"
-
-# Optional: webhook timeout
-webhook:
-  timeoutSeconds: 10
