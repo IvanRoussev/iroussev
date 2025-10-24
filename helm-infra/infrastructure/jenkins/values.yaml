@@ -14,9 +14,11 @@ jenkins:
       hostName: jenkins.iroussev.com
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        # Ensure ACME challenge can reach the validation endpoint
+        nginx.ingress.kubernetes.io/ssl-redirect: "false"
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
           backend:
             service:
               name: jenkins
@@ -26,14 +28,3 @@ jenkins:
         - secretName: jenkins-tls
           hosts:
             - jenkins.iroussev.com
-
-    paths: 
-      - path: /
-        pathType: Prefix
-
-
-
-    tls: 
-      - secretName: jenkins-tls
-        hosts:
-          - jenkins.iroussev.com
