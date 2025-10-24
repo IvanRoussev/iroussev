@@ -18,6 +18,8 @@ Ingress Nginx
 
 kubectl create namespace ingress-nginx --dry-run=client -o yaml | kubectl apply -f -
 
-helm upgrade --install nginx-ingress ./nginx-ingress \
+helm dependency build
+
+helm upgrade --install ingress-nginx ./ingress-nginx \
   -n ingress-nginx \
-  -f ./nginx-ingress/values.yaml
+  -f ./ingress-nginx/values.yaml
