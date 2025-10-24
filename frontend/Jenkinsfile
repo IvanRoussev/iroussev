@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/IvanRoussev/iroussev.git'
+                git branch: 'main', url: 'https://github.com/IvanRoussev/iroussev.git'
             }
         }
 
@@ -25,8 +25,8 @@ pipeline {
                 dir('frontend') {
                     script {
                         docker.withRegistry('https://index.docker.io/v1/', 'DOCKERHUB_CREDENTIALS') {
-                            docker.image("iroussev/frontend:${env.BUILD_ID}").push()
-                            docker.image("iroussev/frontend:${env.BUILD_ID}").push('latest')
+                            docker.image("iroussevcom/frontend:${env.BUILD_ID}").push()
+                            docker.image("iroussevcom/frontend:${env.BUILD_ID}").push('latest')
                         }
                     } 
                 }
