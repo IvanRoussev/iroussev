@@ -14,9 +14,6 @@ jenkins:
       hostName: jenkins.iroussev.com
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        # Allow HTTP access for ACME challenges (no redirect)
-        nginx.ingress.kubernetes.io/ssl-redirect: "false"
-        # Use edit-in-place to avoid pathType issues
         acme.cert-manager.io/http01-edit-in-place: "true"
       paths:
         - path: /
