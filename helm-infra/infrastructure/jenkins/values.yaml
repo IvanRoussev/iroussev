@@ -10,15 +10,10 @@ controller:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hosts:
-      - host: builds.iroussev.com
-        paths:
-          - path: /
-            pathType: Prefix
+    hostName: builds.iroussev.com
     tls:
       - secretName: jenkins-tls
         hosts:
           - builds.iroussev.com
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/rewrite-target: /
