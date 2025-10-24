@@ -3,7 +3,7 @@ ingress-nginx:
     replicaCount: 2
     service:
       type: LoadBalancer
-      externalTrafficPolicy: Local
+      externalTrafficPolicy: Local  
     resources:
       requests:
         cpu: 100m
