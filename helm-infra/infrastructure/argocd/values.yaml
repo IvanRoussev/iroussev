@@ -6,18 +6,12 @@ argo-cd:
     ingress:
       enabled: true
       ingressClassName: nginx
+      hostName: argo.iroussev.com
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/tls-acme: "true"
-      hostName: argo.iroussev.com
-      paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: argo
-              port:
-                number: 80
+      path: /
+      pathType: Prefix
       tls:
         - secretName: argocd-tls
           hosts:
