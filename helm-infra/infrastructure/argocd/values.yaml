@@ -1,0 +1,22 @@
+argo-cd:
+  server:
+    extraArgs:
+      - --insecure
+
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        kubernetes.io/ingress.class: nginx
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/tls-acme: "true"
+      hosts:
+        - argo.iroussev.com
+      tls:
+        - secretName: argocd-tls
+          hosts:
+            - argo.iroussev.com
+
+  configs:
+    params:
+      server.insecure: true  # Allows HTTPS termination at NGINX ingress
