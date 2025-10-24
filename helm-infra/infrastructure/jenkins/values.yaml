@@ -13,7 +13,10 @@ controller:
 
     # Override for the default paths that map requests to the backend
     # -- Override for the default Ingress paths
-    paths: []
+    paths: 
+      - path: /
+        pathType: Prefix
+        
     # - backend:
     #     serviceName: ssl-redirect
     #     servicePort: use-annotation
@@ -31,7 +34,7 @@ controller:
     labels: {}
     # -- Ingress annotations
     annotations:
-      {}
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
     # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
@@ -40,7 +43,6 @@ controller:
 
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     # -- Ingress path
-    path: 
 
     # configures the hostname e.g. jenkins.example.com
     # -- Ingress hostname
@@ -48,7 +50,7 @@ controller:
     # -- Hostname to serve assets from
     resourceRootUrl:
     # -- Ingress TLS configuration
-    tls: []
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
+    tls: 
+      - secretName: jenkins-tls
+        hosts:
+          - jenkins.cluster.local
