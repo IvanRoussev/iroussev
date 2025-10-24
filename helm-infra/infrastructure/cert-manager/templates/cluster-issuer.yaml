@@ -16,3 +16,7 @@ spec:
       - http01:
           ingress:
             class: {{ .Values.clusterIssuer.ingressClass }}
+            ingressTemplate:
+              metadata:
+                annotations:
+                  nginx.ingress.kubernetes.io/ssl-redirect: "false"

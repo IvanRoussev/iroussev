@@ -16,8 +16,7 @@ jenkins:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         # Allow HTTP access for ACME challenges (no redirect)
         nginx.ingress.kubernetes.io/ssl-redirect: "false"
-        # Alternatively, use this annotation to allow HTTP for challenge path only
-        cert-manager.io/issue-temporary-certificate: "true"
+        # Use edit-in-place to avoid pathType issues
         acme.cert-manager.io/http01-edit-in-place: "true"
       paths:
         - path: /
