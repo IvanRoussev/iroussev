@@ -1,33 +1,29 @@
-# Argo CD Values for argo.iroussev.com
-
 global:
   domain: argo.iroussev.com
 
 configs:
   params:
-    server.insecure: true
+    server.insecure: "true"
 
 server:
   ingress:
     enabled: true
-    ingressClassName: "nginx" # Set this to your ingress controller (e.g., "nginx", "traefik")
-    hostname: argo.iroussev.com
+    ingressClassName: nginx
     annotations:
-      # Uncomment and adjust based on your ingress controller
-      # For nginx ingress with SSL passthrough:
-      # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      # nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      
-      # For nginx ingress with TLS termination:
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    tls: true # Set to true if you want to enable TLS
-    extraTls:
-      - secretName: argocd-server-tls
-        hosts:
-          - argo.iroussev.com
-
-
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    
+    # Hostname
+    hostname: argo.iroussev.com
+    
+    # Path configuration
+    path: /
+    pathType: Prefix
+    
+    # Enable TLS
+    tls: true
+    
 
   certificate:
     enabled: true
@@ -35,7 +31,6 @@ server:
     issuer:
       kind: ClusterIssuer
       name: letsencrypt-prod
-
 
 
 # Notifications configuration
