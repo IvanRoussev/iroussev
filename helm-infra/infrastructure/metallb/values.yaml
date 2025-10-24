@@ -1,0 +1,28 @@
+namespace: metallb-system
+
+controller:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+speaker:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+configInline:
+  address-pools:
+    - name: default
+      protocol: layer2
+      addresses:
+        - 91.98.157.135
