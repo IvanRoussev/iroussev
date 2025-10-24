@@ -1,8 +1,5 @@
 argo-cd:
   server:
-    extraArgs:
-      - --insecure
-
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -17,6 +14,16 @@ argo-cd:
           hosts:
             - argo.iroussev.com
 
+
+    extraArgs:
+      - --insecure
+
   configs:
     params:
       server.insecure: true  # Allows HTTPS termination at NGINX ingress
+
+
+global:
+  # Disable the built-in Ingress from templates
+  ingress:
+    enabled: false
