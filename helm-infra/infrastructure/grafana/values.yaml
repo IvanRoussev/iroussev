@@ -6,26 +6,52 @@ grafana:
     sha: ""
     pullPolicy: IfNotPresent
 
+  # ingress:
+  #   enabled: true
+  #   ingressClassName: nginx
+  #   hosts:
+  #     - grafana.iroussev.com
+  #   annotations:
+  #     cert-manager.io/cluster-issuer: letsencrypt-prod
+  #     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  #   paths:
+  #     - pathType: Prefix
+  #       path: /
+  #       backend:
+  #         service:
+  #           name: grafana
+  #           port:
+  #             number: 80
+  #   tls:
+  #   - secretName: grafana-tls
+  #     hosts:
+  #       - grafana.iroussev.com
+
   ingress:
     enabled: true
     ingressClassName: nginx
-    hosts:
-      - grafana.iroussev.com
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: grafana
-            port:
-              number: 80
-    tls:
-    - secretName: grafana-tls
-      hosts:
-        - grafana.iroussev.com
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    
+    # Hostname
+    hostname: grafana.iroussev.com
+    
+    # Path configuration
+    path: /
+    pathType: Prefix
+    
+    # Enable TLS
+    tls: true
+    
+
+  certificate:
+    enabled: true
+    domain: grafana.iroussev.com
+    issuer:
+      kind: ClusterIssuer
+      name: letsencrypt-prod
 
   persistence:
     type: pvc
