@@ -14,12 +14,6 @@ grafana:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       acme.cert-manager.io/http01-edit-in-place: "true"
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        location /.well-known/acme-challenge/ {
-          allow all;
-          # Ensure no redirect is enforced for ACME challenge
-          return 200;
-        }
     paths:
       - path: /
         pathType: Prefix
@@ -59,3 +53,7 @@ grafana:
     server:
       domain: grafana.iroussev.com
       root_url: https://grafana.iroussev.com/
+      serve_from_sub_path: false
+    auth.anonymous:
+      enabled: true
+      org_role: Viewer
