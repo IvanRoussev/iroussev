@@ -13,10 +13,14 @@ grafana:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       acme.cert-manager.io/http01-edit-in-place: "true"
-    path: /
-    pathType: Prefix
-    hosts:
-      - grafana.iroussev.com
+    paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
     tls:
     - secretName: grafana-iroussev-tls
       hosts:
