@@ -1,4 +1,4 @@
-grafana:  
+grafana:
   image:
     registry: docker.io
     repository: grafana/grafana
@@ -14,6 +14,12 @@ grafana:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       acme.cert-manager.io/http01-edit-in-place: "true"
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        location /.well-known/acme-challenge/ {
+          allow all;
+          # Ensure no redirect is enforced for ACME challenge
+          return 200;
+        }
     paths:
       - path: /
         pathType: Prefix
@@ -51,6 +57,5 @@ grafana:
     grafana_net:
       url: https://grafana.net
     server:
-      domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
-
-
+      domain: grafana.iroussev.com
+      root_url: https://grafana.iroussev.com/
