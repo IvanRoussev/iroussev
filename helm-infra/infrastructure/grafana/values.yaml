@@ -11,9 +11,8 @@ grafana:
     ingressClassName: nginx
     hostName: grafana.iroussev.com
     annotations:
-      kubernetes.io/ingress.class: nginx
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/tls-acme: "true"
+      acme.cert-manager.io/http01-edit-in-place: "true"
     path: /
     pathType: Prefix
     hosts:
