@@ -1,21 +1,3 @@
-apiVersion: v2
-name: jenkins
-description: Jenkins CI/CD Server
-type: application
-version: 1.0.0
-dependencies:
-  - name: jenkins
-    version: "5.8.100"
-    repository: "https://charts.jenkins.io"
-
-resources:
-  requests:
-    cpu: "250m"
-    memory: "1Gi"
-  limits:
-    cpu: "1000m"
-    memory: "2Gi"
-
 jenkins:
   controller:
     ingress:
@@ -37,33 +19,3 @@ jenkins:
         - secretName: jenkins-tls
           hosts:
             - jenkins.iroussev.com
-
-  agent:
-    image:
-      repository: iroussevcom/jenkins-agent-with-docker
-      tag: 1.0.0
-    env:
-      - name: DOCKER_HOST
-        value: "tcp://localhost:2375"
-    resources:
-      requests:
-        cpu: "512m"
-        memory: "512Mi"
-      limits:
-        cpu: "512m"
-        memory: "512Mi"
-    additionalContainers:
-      - sideContainerName: dind
-        image:
-          repository: docker
-          tag: dind
-        command: dockerd-entrypoint.sh
-        args: --host tcp://0.0.0.0:2375
-        privileged: true
-        resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
-          limits:
-            cpu: 1
-            memory: 2Gi
