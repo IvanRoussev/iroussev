@@ -29,6 +29,9 @@ jenkins:
             - jenkins.iroussev.com
 
   agent:
+    image:
+      repository: jenkins/inbound-agent
+      tag: latest-docker 
     additionalContainers:
       - sideContainerName: dind
         image:
