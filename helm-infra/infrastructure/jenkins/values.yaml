@@ -1,5 +1,29 @@
 jenkins:
-  controller:
+  # controller:
+  #   # Enable Jenkins Configuration as Code (JCasC) for easier configuration
+  #   JCasC:
+  #     enabled: true
+  #     configScripts:
+  #       github-config: |
+  #         jenkins:
+  #           clouds:
+  #             - kubernetes:
+  #                 name: kubernetes
+  #                 containerCapStr: "10"
+  #                 defaultsProviderTemplate: "default"
+  #                 namespace: "jenkins"
+  #                 serverUrl: "https://kubernetes.default"
+  #           securityRealm:
+  #             github:
+  #               clientId: "${GITHUB_CLIENT_ID}"
+  #               clientSecret: "${GITHUB_CLIENT_SECRET}"
+  #               githubApiUri: "https://api.github.com"
+  #               oauthScopes: "read:org,user:email,repo"
+  #           authorizationStrategy:
+  #             loggedInUsersCanDoAnything:
+  #               allowAnonymousRead: false
+
+    # Ingress configuration
     ingress:
       enabled: true
       ingressClassName: nginx
@@ -19,3 +43,20 @@ jenkins:
         - secretName: jenkins-tls
           hosts:
             - jenkins.iroussev.com
+
+    # # Persistence for Jenkins configuration
+    # persistence:
+    #   enabled: true
+    #   storageClass: "standard" # Adjust based on your cluster's storage class
+    #   size: 8Gi
+
+    # Install required plugins for GitHub and Docker
+    installPlugins:
+      - kubernetes:4303.v4f8b_628b_f0f2
+      - workflow-aggregator:600.vb_57b_6ec0ed8
+      - github:1.37.0
+      - github-oauth:0.33
+      - docker-workflow:563.vd5d2e5c4007f
+      - docker-commons:1.17
+      - git:5.2.1
+      - configuration-as-code:1810.v9b_6a_4ed7c3f
