@@ -21,7 +21,8 @@ cert-manager:
     timeoutSeconds: 10
   
   config:
-    ACMEHTTP01IngressPathTypeExact: false 
+    featureGates:
+      ACMEHTTP01IngressPathTypeExact: false 
 
 
 # Custom values for ClusterIssuer
