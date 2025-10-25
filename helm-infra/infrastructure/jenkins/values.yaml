@@ -31,7 +31,7 @@ jenkins:
   agent:
     image:
       repository: jenkins/inbound-agent
-      tag: latest-docker 
+      tag: latest 
     additionalContainers:
       - sideContainerName: dind
         image:
