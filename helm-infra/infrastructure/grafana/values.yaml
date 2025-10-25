@@ -1,4 +1,4 @@
-grafana:
+grafana:  
   image:
     registry: docker.io
     repository: grafana/grafana
@@ -51,9 +51,6 @@ grafana:
     grafana_net:
       url: https://grafana.net
     server:
-      domain: grafana.iroussev.com
-      root_url: https://grafana.iroussev.com/
-      serve_from_sub_path: false
-    auth.anonymous:
-      enabled: true
-      org_role: Viewer
+      domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
+
+
