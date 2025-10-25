@@ -9,7 +9,8 @@ grafana:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hostName: grafana.iroussev.com
+    hosts:
+      - grafana.iroussev.com
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       acme.cert-manager.io/http01-edit-in-place: "true"
@@ -22,7 +23,7 @@ grafana:
             port:
               number: 80
     tls:
-    - secretName: grafana-iroussev-tls
+    - secretName: grafana-tls
       hosts:
         - grafana.iroussev.com
 
