@@ -1,5 +1,5 @@
 jenkins:
-  # controller:
+  controller:
   #   # Enable Jenkins Configuration as Code (JCasC) for easier configuration
   #   JCasC:
   #     enabled: true
