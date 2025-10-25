@@ -7,21 +7,18 @@ kind: Pod
 spec:
   containers:
   - name: docker
-    image: docker:24.0.7-dind
-    securityContext:
-      privileged: true
-    env:
-      - name: DOCKER_TLS_CERTDIR
-        value: ""
+    image: docker:24.0.7
+    command:
+    - cat
+    tty: true
     volumeMounts:
       - name: docker-sock
         mountPath: /var/run/docker.sock
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
   volumes:
     - name: docker-sock
       hostPath:
         path: /var/run/docker.sock
+        type: Socket
 '''
         }
     }
@@ -38,9 +35,7 @@ spec:
             steps {
                 container('docker') {
                     dir('frontend') {
-                        script {
-                            docker.build("iroussevcom/frontend:${env.BUILD_ID}")
-                        }
+                        sh "docker build -t iroussevcom/frontend:${env.BUILD_ID} ."
                     }
                 }
             }
@@ -48,13 +43,13 @@ spec:
         stage('Push Docker Image') {
             steps {
                 container('docker') {
-                    dir('frontend') {
-                        script {
-                            docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                                docker.image("iroussevcom/frontend:${env.BUILD_ID}").push()
-                                docker.image("iroussevcom/frontend:${env.BUILD_ID}").push('latest')
-                            }
-                        }
+                    script {
+                        sh '''
+                            echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                            docker push iroussevcom/frontend:${BUILD_ID}
+                            docker tag iroussevcom/frontend:${BUILD_ID} iroussevcom/frontend:latest
+                            docker push iroussevcom/frontend:latest
+                        '''
                     }
                 }
             }
