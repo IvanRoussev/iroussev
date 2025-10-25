@@ -29,31 +29,19 @@ grafana:
 
   ingress:
     enabled: true
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
     ingressClassName: nginx
-    # Values can be templated
     annotations:
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/cluster-issuer: letsencrypt-staging
       acme.cert-manager.io/http01-edit-in-place: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      
-    labels: {}
     path: /
-
-    # pathType is only for k8s >= 1.1=
     pathType: Prefix
-
     hosts:
       - grafana.iroussev.com
-
     tls:
      - secretName: grafana-tls
        hosts:
          - grafana.iroussev.com
-
 
   persistence:
     type: pvc
