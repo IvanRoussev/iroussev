@@ -11,7 +11,7 @@ cert-manager:
     limits:
       cpu: 500m
       memory: 512Mi
-  
+
   # Configure log levels
   global:
     logLevel: 2
@@ -19,6 +19,10 @@ cert-manager:
   # Webhook configuration
   webhook:
     timeoutSeconds: 10
+  
+  config:
+    ACMEHTTP01IngressPathTypeExact: false 
+
 
 # Custom values for ClusterIssuer
 clusterIssuer:
