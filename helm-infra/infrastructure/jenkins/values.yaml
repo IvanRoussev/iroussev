@@ -1,3 +1,13 @@
+apiVersion: v2
+name: jenkins
+description: Jenkins CI/CD Server
+type: application
+version: 1.0.0
+dependencies:
+  - name: jenkins
+    version: "5.8.100"
+    repository: "https://charts.jenkins.io"
+
 resources:
   requests:
     cpu: "250m"
@@ -30,15 +40,25 @@ jenkins:
 
   agent:
     image:
-      repository: jenkins/inbound-agent
-      tag: latest 
+      repository: iroussevcom/jenkins-agent-with-docker
+      tag: 1.0.0
+    env:
+      - name: DOCKER_HOST
+        value: "tcp://localhost:2375"
+    resources:
+      requests:
+        cpu: "512m"
+        memory: "512Mi"
+      limits:
+        cpu: "512m"
+        memory: "512Mi"
     additionalContainers:
       - sideContainerName: dind
         image:
           repository: docker
           tag: dind
         command: dockerd-entrypoint.sh
-        args: ""
+        args: --host tcp://0.0.0.0:2375
         privileged: true
         resources:
           requests:
