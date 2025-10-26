@@ -5,7 +5,9 @@ grafana:
     tag: ""
     sha: ""
     pullPolicy: IfNotPresent
-
+    
+  initChownData:
+    enabled: false
   # ingress:
   #   enabled: true
   #   ingressClassName: nginx
