@@ -44,15 +44,11 @@ grafana:
          - grafana.iroussev.com
 
   persistence:
-    type: pvc
     enabled: true
-    volumeName: ""
+    storageClassName: local-path
     accessModes:
       - ReadWriteOnce
     size: 10Gi
-    finalizers:
-      - kubernetes.io/pvc-protection
-    lookupVolumeName: true
 
   grafana.ini:
     paths:
