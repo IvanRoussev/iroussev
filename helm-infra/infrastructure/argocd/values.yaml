@@ -6,6 +6,18 @@ argo-cd:
     params:
       server.insecure: "true"
 
+    cm:
+      accounts.visitor: apiKey, login
+    
+    secret:
+      extra:
+        accounts.visitor.password: "$2a$10$33Q1x7E610cJScsjuhVXF.T5bFjAlu.Zl0pRpM2gyRIDSwyq.qyyy"
+    
+    rbac:
+      policy.csv: |
+        # Assign visitor to the built-in readonly role
+        g, visitor, role:readonly
+
   server:
     ingress:
       enabled: true
@@ -25,14 +37,12 @@ argo-cd:
       # Enable TLS
       tls: true
       
-
     certificate:
       enabled: true
       domain: argo.iroussev.com
       issuer:
         kind: ClusterIssuer
         name: letsencrypt-prod
-
 
   # Notifications configuration
   notifications:
