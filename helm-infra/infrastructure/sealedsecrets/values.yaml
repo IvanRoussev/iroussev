@@ -1,0 +1,26 @@
+sealed-secrets:
+  namespace: sealed-secrets
+  createNamespace: true
+
+  rbac:
+    create: true
+
+  serviceAccount:
+    create: true
+
+  sealedSecrets:
+    keyrenewperiod: "720h"
+
+  controller:
+    replicaCount: 1
+
+  networkPolicy:
+    enabled: true
+
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
