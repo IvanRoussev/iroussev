@@ -1,0 +1,64 @@
+---
+- name: Install kubeseal on Ubuntu
+  hosts: servers
+  become: true
+  vars:
+    kubeseal_version: "0.32.2"
+    kubeseal_arch: "linux-amd64"
+    install_dir: "/usr/local/bin"
+    temp_dir: "/tmp/kubeseal-install"
+  
+  tasks:
+    - name: Create temporary directory
+      file:
+        path: "{{ temp_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Check if kubeseal is already installed
+      stat:
+        path: "{{ install_dir }}/kubeseal"
+      register: kubeseal_binary
+
+    - name: Get installed kubeseal version
+      command: "{{ install_dir }}/kubeseal --version"
+      register: installed_version
+      changed_when: false
+      failed_when: false
+      when: kubeseal_binary.stat.exists
+
+    - name: Download kubeseal
+      get_url:
+        url: "https://github.com/bitnami-labs/sealed-secrets/releases/download/v{{ kubeseal_version }}/kubeseal-{{ kubeseal_version }}-{{ kubeseal_arch }}.tar.gz"
+        dest: "{{ temp_dir }}/kubeseal.tar.gz"
+        mode: '0644'
+      when: not kubeseal_binary.stat.exists or (installed_version.stdout is defined and kubeseal_version not in installed_version.stdout)
+
+    - name: Extract kubeseal binary
+      unarchive:
+        src: "{{ temp_dir }}/kubeseal.tar.gz"
+        dest: "{{ temp_dir }}"
+        remote_src: yes
+      when: not kubeseal_binary.stat.exists or (installed_version.stdout is defined and kubeseal_version not in installed_version.stdout)
+
+    - name: Install kubeseal to system path
+      copy:
+        src: "{{ temp_dir }}/kubeseal"
+        dest: "{{ install_dir }}/kubeseal"
+        mode: '0755'
+        remote_src: yes
+      when: not kubeseal_binary.stat.exists or (installed_version.stdout is defined and kubeseal_version not in installed_version.stdout)
+
+    - name: Verify kubeseal installation
+      command: kubeseal --version
+      register: verify_version
+      changed_when: false
+
+    - name: Display installed version
+      debug:
+        msg: "Kubeseal {{ verify_version.stdout }} installed successfully"
+
+    - name: Clean up temporary files
+      file:
+        path: "{{ temp_dir }}"
+        state: absent 
