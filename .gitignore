@@ -1,3 +1,4 @@
 .env
 Chart.lock
 *charts/
+ansible/vars.yaml
