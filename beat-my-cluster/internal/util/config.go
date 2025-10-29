@@ -6,7 +6,8 @@ import (
 )
 
 type Config struct {
-	ServerAddress string `mapstructure:"SERVER_ADDRESS"`
+	ServerAddress    string `mapstructure:"SERVER_ADDRESS"`
+	ConnectionString string `mapstructure:"CONNECTION_STRING"`
 }
 
 func LoadConfig(path string) (Config, error) {

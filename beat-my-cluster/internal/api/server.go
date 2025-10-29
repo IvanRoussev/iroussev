@@ -1,30 +1,27 @@
 package api
 
 import (
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/util"
+	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/game"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 type Server struct {
-	config util.Config
-	router *gin.Engine
+	Router *gin.Engine
+	DB     *gorm.DB
+	Game   *game.Game
 }
 
-func NewServer(config util.Config) (*Server, error) {
+func (s *Server) SetupRouter() {
+	r := gin.Default()
 
-	server := &Server{
-		config: config,
-	}
+	r.POST("/attack", s.HandleAttack)
+	r.GET("/leaderboard", s.HandleLeaderboard)
+	r.GET("/health", s.HandleHealth)
 
-	server.setupRouter()
-
-	return server, nil
+	s.Router = r
 }
 
-func (server *Server) Start(address string) error {
-	return server.router.Run(address)
-}
-
-func errorResponse(err error) gin.H {
-	return gin.H{"error": err.Error()}
+func (s *Server) Start(address string) error {
+	return s.Router.Run(address)
 }
