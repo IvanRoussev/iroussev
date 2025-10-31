@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ include "attack-cluster.fullname" . }}
   labels:
-    {{- include "attack-cluster.labels" . | nindent 4 }}
+    name: attack-cluster
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
