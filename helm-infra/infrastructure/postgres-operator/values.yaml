@@ -22,9 +22,9 @@ postgres-operator:
 postgres-operator-ui:
   ingress:
     enabled: true
-    className: nginx
+    ingressClassName: nginx
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-staging
+      cert-manager.io/cluster-issuer: letsencrypt-prod
     hosts:
       - host: postgres.iroussev.com    # fixed the typo (was posgres)
         paths:
