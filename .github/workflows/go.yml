@@ -44,5 +44,5 @@ jobs:
           context: attack-cluster
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/attack-cluster:latest
-            ghcr.io/${{ github.repository_owner }}/attack-cluster:${{ github.sha }}
+            ${{ vars.DOCKERHUB_USERNAME }}/attack-cluster:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/attack-cluster:${{ github.sha }}
