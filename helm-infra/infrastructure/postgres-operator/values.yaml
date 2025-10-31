@@ -23,14 +23,18 @@ postgres-operator-ui:
   ingress:
     enabled: true
     ingressClassName: nginx
+    hostName: postgres.iroussev.com
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-    hosts:
-      - host: postgres.iroussev.com    # fixed the typo (was posgres)
-        paths:
-          - path: /
-            pathType: Prefix
+    paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: postgres
+            port:
+              number: 8080
     tls:
-      - hosts:
+      - secretName: postgres-tls
+        hosts:
           - postgres.iroussev.com
-        secretName: postgres-tls
