@@ -1,31 +1,32 @@
-namespace: postgres-operator
+postgres-operator:
+  namespace: postgres-operator
 
-configKubernetes:
-  enable_crd_registration: true
+  configKubernetes:
+    enable_crd_registration: true
 
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 250m
-    memory: 256Mi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
 
-configLogicalBackup:
-  enable: false
+  configLogicalBackup:
+    enable: false
 
-configAwsOrGcp:
-  enable_iam_roles_for_service_accounts: false
+  configAwsOrGcp:
+    enable_iam_roles_for_service_accounts: false
 
 
-ui:
+postgres-operator-ui:
   ingress:
     enabled: true
-    ingressClassName: nginx
+    className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-staging
     hosts:
-      - host: posgres.iroussev.com
+      - host: postgres.iroussev.com    # fixed the typo (was posgres)
         paths:
           - path: /
             pathType: Prefix
