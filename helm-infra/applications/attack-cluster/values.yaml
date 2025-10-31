@@ -2,9 +2,9 @@
 replicaCount: 1
 
 image:
-  repository: ghcr.io/ivanroussev/attack-cluster
+  repository: iroussevcom/attack-cluster
   pullPolicy: IfNotPresent
-  tag: "0f51f0e32b07a460f951382562bbdef533d687fc"
+  tag: "latest"
 
 imagePullSecrets: []
 
