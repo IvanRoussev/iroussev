@@ -1,4 +1,4 @@
-module github.com/IvanRoussev/iroussev/beat-my-cluster
+module github.com/IvanRoussev/iroussev/attack-cluster
 
 go 1.24.9
 

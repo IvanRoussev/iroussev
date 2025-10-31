@@ -2,3 +2,4 @@
 Chart.lock
 *charts/
 ansible/vars.yaml
+diagram.md

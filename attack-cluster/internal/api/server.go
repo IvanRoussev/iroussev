@@ -1,7 +1,7 @@
 package api
 
 import (
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/game"
+	"github.com/IvanRoussev/iroussev/attack-cluster/internal/game"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -17,7 +17,6 @@ func (s *Server) SetupRouter() {
 
 	r.POST("/attack", s.HandleAttack)
 	r.GET("/leaderboard", s.HandleLeaderboard)
-	r.GET("/health", s.HandleHealth)
 
 	s.Router = r
 }

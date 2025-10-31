@@ -3,10 +3,10 @@ package main
 import (
 	"log"
 
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/api"
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/db"
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/game"
-	"github.com/IvanRoussev/iroussev/beat-my-cluster/internal/util"
+	"github.com/IvanRoussev/iroussev/attack-cluster/internal/api"
+	"github.com/IvanRoussev/iroussev/attack-cluster/internal/db"
+	"github.com/IvanRoussev/iroussev/attack-cluster/internal/game"
+	"github.com/IvanRoussev/iroussev/attack-cluster/internal/util"
 
 	_ "github.com/lib/pq"
 )
@@ -22,7 +22,7 @@ func main() {
 		log.Fatal("Cannot connect to Database: ", err)
 	}
 
-	err = dbconn.AutoMigrate(&db.Player{}, &db.Attack{})
+	err = dbconn.AutoMigrate(&db.Player{})
 	if err != nil {
 		log.Fatal("Failed to Migrate Database: ", err)
 	}
