@@ -28,12 +28,7 @@ postgres-operator-ui:
     hosts:
       - host: postgres.iroussev.com
         paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: postgres-operator-postgres-operator-ui
-                port: 80
+          - /
     tls:
       - secretName: postgres-tls
         hosts:
