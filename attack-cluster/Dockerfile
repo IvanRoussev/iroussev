@@ -1,15 +1,20 @@
-FROM golang:1.24
+FROM golang:1.25-alpine AS builder
 
-WORKDIR /app
+ENV CGO_ENABLED=0 \
+    GOOS=linux \
+    GOARCH=amd64
 
-COPY attack-cluster/go.mod attack-cluster/go.sum ./
+WORKDIR /build
 
+COPY go.mod go.sum ./
 RUN go mod download
 
-COPY attack-cluster/. ./
+COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping ./...
+RUN go build -o /app ./cmd
 
-EXPOSE 8080
+FROM alpine:3.21 AS final
+COPY --from=builder /app /bin/app
 
-CMD ["/docker-gs-ping"]
+EXPOSE 8000
+CMD ["/bin/app"]
