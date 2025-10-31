@@ -1,5 +1,9 @@
 {{- define "attack-cluster.fullname" -}}
-{{ .Release.Name }}-{{ .Chart.Name }}
+{{- if eq .Release.Name .Chart.Name -}}
+{{ .Release.Name }}
+{{- else -}}
+{{ printf "%s-%s" .Release.Name .Chart.Name }}
+{{- end -}}
 {{- end }}
 
 {{- define "attack-cluster.labels" -}}
