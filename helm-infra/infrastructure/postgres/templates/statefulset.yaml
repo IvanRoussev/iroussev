@@ -70,7 +70,7 @@ spec:
       volumes:
         - name: postgres-config
           configMap:
-            name: {{ include "postgres.fullname" . }}-config
+            name: {{ include "postgres.fullname" . }}
             items:
               - key: postgresql.conf
                 path: postgresql.conf
