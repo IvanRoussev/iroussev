@@ -1,0 +1,54 @@
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: db
+
+image:
+  repository: postgres
+  tag: "17"
+  pullPolicy: IfNotPresent
+
+
+replicaCount: 1
+
+
+postgresql:
+  username: ivan
+  database: iroussev
+  maxConnections: 200
+  sharedBuffers: 250MB
+  effectiveCacheSize: 512MB
+  logStatement: "ddl"
+
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 512Mi
+    cpu: 250m
+
+readinessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+livenessProbe:
+  initialDelaySeconds: 10
+  periodSeconds: 10
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClass: ""
+
+service:
+  type: ClusterIP
+  port: 5432
+
+customConfig:
+  enabled: true
+  config: |
+    # Any extra parameters you want
+    work_mem = 16MB
+    maintenance_work_mem = 64MB
