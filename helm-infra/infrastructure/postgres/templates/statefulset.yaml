@@ -74,6 +74,7 @@ spec:
             items:
               - key: postgresql.conf
                 path: postgresql.conf
+
 {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
@@ -84,5 +85,5 @@ spec:
         resources:
           requests:
             storage: {{ .Values.persistence.size | quote }}
-        storageClassName: {{ default "" .Values.persistence.storageClass | quote }}
+        storageClassName: {{ .Values.persistence.storageClass | quote }}
 {{- end }}

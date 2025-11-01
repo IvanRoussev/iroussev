@@ -5,7 +5,7 @@ namespace: db
 
 image:
   repository: postgres
-  tag: 17
+  tag: "17"
   pullPolicy: IfNotPresent
 
 
@@ -42,7 +42,7 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   size: 10Gi
-  storageClass: ""
+  storageClass: local-path 
 
 service:
   type: ClusterIP
