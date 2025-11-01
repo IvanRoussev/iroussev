@@ -1,0 +1,7 @@
+apiVersion: v2
+name: postgres
+description: "A Helm chart for deploying PostgreSQL with StatefulSet, SealedSecret, ConfigMap, and PVC"
+type: application
+version: 0.1.0
+appVersion: "17"
+icon: https://www.postgresql.org/media/img/about/press/elephant.png

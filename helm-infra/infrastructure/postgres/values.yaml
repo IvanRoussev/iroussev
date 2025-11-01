@@ -11,7 +11,9 @@ image:
 
 replicaCount: 1
 
-
+securityContext:
+  fsGroup: 999
+  
 postgresql:
   username: ivan
   database: iroussev
