@@ -2,19 +2,22 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "postgres.fullname" . }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.namespace | quote }}
   labels:
-    {{- include "postgres.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "postgres.name" . | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 spec:
   serviceName: {{ include "postgres.fullname" . }}
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "postgres.name" . }}
+      app: {{ include "postgres.name" . | quote }}
   template:
     metadata:
       labels:
-        app: {{ include "postgres.name" . }}
+        app: {{ include "postgres.name" . | quote }}
     spec:
       securityContext:
         fsGroup: {{ .Values.securityContext.fsGroup }}
@@ -28,10 +31,8 @@ spec:
           env:
             - name: POSTGRES_USER
               value: {{ .Values.postgresql.username | quote }}
-
             - name: POSTGRES_DB
               value: {{ .Values.postgresql.database | quote }}
-
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -56,6 +57,14 @@ spec:
                 - sh
                 - -c
                 - pg_isready -U {{ .Values.postgresql.username }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - pg_isready -U {{ .Values.postgresql.username }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
       volumes:
@@ -65,13 +74,15 @@ spec:
             items:
               - key: postgresql.conf
                 path: postgresql.conf
+{{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
     - metadata:
         name: data
       spec:
         accessModes:
-          - {{ .Values.persistence.accessMode }}
+          - {{ .Values.persistence.accessMode | quote }}
         resources:
           requests:
-            storage: {{ .Values.persistence.size }}
+            storage: {{ .Values.persistence.size | quote }}
         storageClassName: {{ default "" .Values.persistence.storageClass | quote }}
+{{- end }}
