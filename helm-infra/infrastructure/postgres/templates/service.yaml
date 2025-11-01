@@ -4,7 +4,10 @@ metadata:
   name: {{ include "postgres.fullname" . | quote }}
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "postgres.labels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "postgres.name" . | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 spec:
   type: {{ .Values.service.type }}
   ports:
